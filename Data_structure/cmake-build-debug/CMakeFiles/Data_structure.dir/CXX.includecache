@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/PC-Saw/CLionProjects/Data_structure/MyArray.h
+iostream
+-
+
+C:/Users/PC-Saw/CLionProjects/Data_structure/main.cpp
+iostream
+-
+MyArray.h
+C:/Users/PC-Saw/CLionProjects/Data_structure/MyArray.h
+
