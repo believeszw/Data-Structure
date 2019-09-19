@@ -45,6 +45,8 @@ TEST_F(ArrayTest, Remove) {
   EXPECT_EQ(0,my_array_.RemoveFirst());
   EXPECT_EQ(9,my_array_.RemoveLast());
   EXPECT_EQ(7,my_array_.GetSize());
+  my_array_.RemoveElement(2);
+  EXPECT_EQ(6,my_array_.GetSize());
 }
 
 TEST_F(ArrayTest, Set) {
@@ -92,11 +94,16 @@ TEST_F(ArrayTest, EqualSignTest) {
   EXPECT_EQ(9,my_array.Get(9));
 }
 
+// 移动构造和移动赋值测试
 TEST_F(ArrayTest, MoveTest) {
   MyArray<int> my_array(std::move(my_array_));
+  my_array = std::move(my_array);
   EXPECT_EQ(10,my_array.GetSize());
   EXPECT_EQ(9,my_array.Get(9));
 }
+
+
+
 
 TEST_F(ArrayTest, OperatorTest) {
   std::cout << my_array_ << std::endl;

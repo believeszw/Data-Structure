@@ -10,7 +10,7 @@ class MyArray {
  private:
   int size_;
   int capacity_;
-  T *data_{nullptr};
+  T* data_{nullptr};
 
  public:
   MyArray();                                   // 无参构造函数
@@ -18,8 +18,8 @@ class MyArray {
   ~MyArray();                                  // *析构函数阻止隐式移动构造函数
   MyArray(const MyArray &arr);                 // 拷贝构造
   MyArray(MyArray &&arr) noexcept;             // 移动构造函数
-  MyArray &operator=(MyArray arr);             // 重载赋值操作符
-  MyArray &operator=(MyArray&& arr) noexcept;  // 重载赋值操作符
+  MyArray &operator=(const MyArray& arr);      // 重载赋值操作符
+  MyArray &operator=(MyArray&& arr) noexcept;  // 重载移动赋值操作符
   T &operator[](int index);                    // 重载[]操作赋
 
   //友元函数实现 重载输出 << 操作符
@@ -50,6 +50,7 @@ class MyArray {
   T Remove(int index);
   T RemoveFirst();
   T RemoveLast();
+  void RemoveElement(T t);
   int Find(T t) const;
   bool Contain(T t) const;
   void Resize(int new_capacity);
@@ -57,17 +58,21 @@ class MyArray {
 
 template<typename T>
 MyArray<T>::MyArray() {
-  size_ = 0;
+  size_     = 0;
   capacity_ = 10;
-  data_ = new T[capacity_];
+  data_     = new T[capacity_];
   std::cout << "调用 MyArray() 构造." << std::endl;
 }
 
 template<typename T>
 MyArray<T>::MyArray(int capacity) {
-  size_ = 0;
+  if (capacity <= 0){
+    std::cout << "MyArray(int) error. Capacity is illegal." << std::endl;
+    throw "MyArray(int) error. Capacity is illegal.";
+  }
+  size_     = 0;
   capacity_ = capacity;
-  data_ = new T[capacity_];
+  data_     = new T[capacity_];
   std::cout << "调用 MyArray(int capacity) 构造." << std::endl;
 }
 
@@ -77,16 +82,16 @@ MyArray<T>::~MyArray() {
     delete[] data_;
     data_ = nullptr;
   }
-  size_ = 0;
+  size_     = 0;
   capacity_ = 0;
-  std::cout << "调用  ~MyArray() 析构." << std::endl;
+  std::cout << "调用 ~MyArray() 析构." << std::endl;
 }
 
 template<typename T>
 MyArray<T>::MyArray(const MyArray &arr) {
-  this->size_ = arr.size_;
+  this->size_     = arr.size_;
   this->capacity_ = arr.capacity_;
-  this->data_ = new T[capacity_];
+  this->data_     = new T[capacity_];
   for (int i = 0; i < size_; ++i) {
     this->data_[i] = arr.data_[i];
   }
@@ -103,7 +108,7 @@ MyArray<T>::MyArray(MyArray &&arr) noexcept {
 }
 
 template<typename T>
-MyArray<T> &MyArray<T>::operator=(MyArray<T> arr) {
+MyArray<T> &MyArray<T>::operator=(const MyArray<T>& arr) {
   if (this->data_ != nullptr) {
     delete[] this->data_;
     this->data_ = nullptr;
@@ -123,8 +128,8 @@ MyArray<T> &MyArray<T>::operator=(MyArray<T> arr) {
 }
 
 template<typename T>
-MyArray<T> &MyArray<T>::operator=(MyArray<T> &&arr) {
-  return ;
+MyArray<T> &MyArray<T>::operator=(MyArray<T> &&arr) noexcept {
+  return *this;
 }
 
 template<typename T>
@@ -254,6 +259,12 @@ T MyArray<T>::RemoveLast() {
 }
 
 template<typename T>
+void MyArray<T>::RemoveElement(T t) {
+  int index = Find(t);
+  index != -1 && Remove(index);
+}
+
+template<typename T>
 int MyArray<T>::Find(T t) const {
   if (IsEmpty()) {
     std::cout << "Find fail. Array is empty." << std::endl;
@@ -274,6 +285,10 @@ bool MyArray<T>::Contain(T t) const {
 
 template<typename T>
 void MyArray<T>::Resize(int new_capacity) {
+  if (new_capacity <= 0){
+    std::cout << "Resize fail. New_capacity is illegal." << std::endl;
+    throw "Resize fail. New_capacity is illegal.";
+  }
   T *new_data = new T[new_capacity];
   for (int i = 0; i < size_; ++i) {
     new_data[i] = std::move(data_[i]);
