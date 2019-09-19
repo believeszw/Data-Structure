@@ -129,6 +129,25 @@ MyArray<T> &MyArray<T>::operator=(const MyArray<T>& arr) {
 
 template<typename T>
 MyArray<T> &MyArray<T>::operator=(MyArray<T> &&arr) noexcept {
+  if (this == &arr) {
+    std::cout << "调用 = 移动赋值操作 " << std::endl;
+    return *this;
+  }
+  if (this->data_ != nullptr) {
+    delete[] this->data_;
+    this->data_ = nullptr;
+  }
+  //分配内存
+  this->size_ = std::exchange(arr.size_, 0);
+  this->capacity_ = std::exchange(arr.capacity_, 0);
+  this->data_ = new T[capacity_];
+  //拷贝数据
+  for (int i = 0; i < size_; i++) {
+    //如果是自定义的复杂数据类型，必须对 = 运算赋进行重载,  operator=
+    this->data_[i] = std::move(arr.data_[i]);
+  }
+
+  std::cout << "调用 = 移动赋值操作 " << std::endl;
   return *this;
 }
 

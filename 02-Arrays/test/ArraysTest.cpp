@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "MyArray.h"
 
-
+// 初始化
 class ArrayTest : public testing::Test {
  protected:
   void SetUp() override {
@@ -76,18 +76,21 @@ TEST_F(ArrayTest, Resize) {
   EXPECT_EQ(10,my_array_.GetCapacity());
 }
 
+// [] 测试
 TEST_F(ArrayTest, SquareBracketsTest) {
   EXPECT_EQ(0,my_array_[0]);
   EXPECT_EQ(1,my_array_[1]);
 }
 
-TEST_F(ArrayTest, CopyTest) {
+// 拷贝构造测试
+TEST_F(ArrayTest, CopyConstructorTest) {
   MyArray<int> my_array(my_array_);
   EXPECT_EQ(10,my_array.GetSize());
   EXPECT_EQ(9,my_array.Get(9));
 }
 
-TEST_F(ArrayTest, EqualSignTest) {
+// 赋值拷贝测试
+TEST_F(ArrayTest, CopyAssignedTest) {
   MyArray<int> my_array;
   my_array = my_array_;
   EXPECT_EQ(10,my_array.GetSize());
@@ -96,15 +99,23 @@ TEST_F(ArrayTest, EqualSignTest) {
 
 // 移动构造和移动赋值测试
 TEST_F(ArrayTest, MoveTest) {
+  // 移动拷贝构造
   MyArray<int> my_array(std::move(my_array_));
+
+  // 移动赋值传入本身
   my_array = std::move(my_array);
   EXPECT_EQ(10,my_array.GetSize());
   EXPECT_EQ(9,my_array.Get(9));
+  MyArray<int> my_array1;
+
+  // 移动赋值
+  my_array1 = std::move(my_array);
+  EXPECT_EQ(10,my_array1.GetSize());
+  EXPECT_EQ(0,my_array.GetSize());
+  EXPECT_EQ(0,my_array_.GetSize());
 }
 
-
-
-
+// 测试 << 重载
 TEST_F(ArrayTest, OperatorTest) {
   std::cout << my_array_ << std::endl;
 }
