@@ -58,9 +58,9 @@ class MyArray {
 
 template<typename T>
 MyArray<T>::MyArray() {
-  size_ = 0;
+  size_     = 0;
   capacity_ = 10;
-  data_ = new T[capacity_];
+  data_     = new T[capacity_];
   std::cout << "调用 MyArray() 构造." << std::endl;
 }
 
@@ -70,9 +70,9 @@ MyArray<T>::MyArray(int capacity) {
     std::cout << "MyArray(int) error. Capacity is illegal." << std::endl;
     throw "MyArray(int) error. Capacity is illegal.";
   }
-  size_ = 0;
+  size_     = 0;
   capacity_ = capacity;
-  data_ = new T[capacity_];
+  data_     = new T[capacity_];
   std::cout << "调用 MyArray(int capacity) 构造." << std::endl;
 }
 
@@ -82,16 +82,16 @@ MyArray<T>::~MyArray() {
     delete[] data_;
     data_ = nullptr;
   }
-  size_ = 0;
+  size_     = 0;
   capacity_ = 0;
   std::cout << "调用 ~MyArray() 析构." << std::endl;
 }
 
 template<typename T>
 MyArray<T>::MyArray(const MyArray &arr) {
-  this->size_ = arr.size_;
+  this->size_     = arr.size_;
   this->capacity_ = arr.capacity_;
-  this->data_ = new T[capacity_];
+  this->data_     = new T[capacity_];
   for (int i = 0; i < size_; ++i) {
     this->data_[i] = arr.data_[i];
   }
@@ -102,8 +102,8 @@ template<typename T>
 MyArray<T>::MyArray(MyArray &&arr) noexcept {
   assert(this != &arr);
   capacity_ = std::exchange(arr.capacity_, 0);
-  size_ = std::exchange(arr.size_, 0);    // 非类类型成员的显式移动
-  data_ = std::move(arr.data_);           // 类类型成员的显式移动
+  size_     = std::exchange(arr.size_, 0);    // 非类类型成员的显式移动
+  data_     = std::move(arr.data_);           // 类类型成员的显式移动
   arr.data_ = nullptr;
   std::cout << "调用  MyArray(const MyArray &&arr) 移动构造函数" << std::endl;
 }
@@ -116,9 +116,9 @@ MyArray<T> &MyArray<T>::operator=(const MyArray<T> &arr) {
     this->data_ = nullptr;
   }
   //分配内存
-  this->size_ = arr.size_;
+  this->size_     = arr.size_;
   this->capacity_ = arr.capacity_;
-  this->data_ = new T[capacity_];
+  this->data_     = new T[capacity_];
   //拷贝数据
   for (int i = 0; i < size_; i++) {
     //如果是自定义的复杂数据类型，必须对 = 运算赋进行重载,  operator=
@@ -192,6 +192,11 @@ void MyArray<T>::AddFirst(T t) {
 }
 
 template<typename T>
+void MyArray<T>::AddLast(T t) {
+  Add(size_, t);
+}
+
+template<typename T>
 void MyArray<T>::Set(int index, T t) {
   if (index < 0 || index >= size_) {
     std::cout << "Set Fail. Index is illegal." << std::endl;
@@ -202,11 +207,6 @@ void MyArray<T>::Set(int index, T t) {
     throw "Set fail. Array is empty.";
   }
   data_[index] = t;
-}
-
-template<typename T>
-void MyArray<T>::AddLast(T t) {
-  Add(size_, t);
 }
 
 template<typename T>

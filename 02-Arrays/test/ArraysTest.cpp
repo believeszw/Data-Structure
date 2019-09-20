@@ -38,6 +38,11 @@ TEST(ArrayTestNoF, AddAndGet) {
   EXPECT_EQ(5,my_array.GetLast());
 }
 
+TEST_F(ArrayTest, GetSizeAndGetCapacity) {
+  EXPECT_EQ(10,my_array_.GetCapacity());
+  EXPECT_EQ(10,my_array_.GetSize());
+}
+
 TEST_F(ArrayTest, Remove) {
   EXPECT_EQ(10,my_array_.GetCapacity());
   EXPECT_EQ(10,my_array_.GetSize());
