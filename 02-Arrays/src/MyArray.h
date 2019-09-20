@@ -5,6 +5,8 @@
 #ifndef DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
 #define DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
 
+#include <stdexcept>
+
 template<typename T>
 class MyArray {
  private:
@@ -68,7 +70,7 @@ template<typename T>
 MyArray<T>::MyArray(int capacity) {
   if (capacity <= 0) {
     std::cout << "MyArray(int) error. Capacity is illegal." << std::endl;
-    throw "MyArray(int) error. Capacity is illegal.";
+    throw std::invalid_argument("MyArray(int) error. Capacity is illegal.");
   }
   size_     = 0;
   capacity_ = capacity;
@@ -147,7 +149,7 @@ template<typename T>
 T &MyArray<T>::operator[](int index) {
   if (index < 0 || index >= size_) {
     std::cout << "[] fail. Index is illegal." << std::endl;
-    throw "[] fail. Index is illegal.";
+    throw std::invalid_argument("[] fail. Index is illegal.");
   }
   std::cout << "[] 调用" << std::endl;
   return this->data_[index];
@@ -167,7 +169,7 @@ template<typename T>
 void MyArray<T>::Add(int index, T t) {
   if (index < -1 || index > size_) {
     std::cout << "Add fail. Index is illegal." << std::endl;
-    throw "Add fail. Index is illegal.";
+    throw std::invalid_argument("Add fail. Index is illegal.");
   }
   if (IsFull()) {
     Resize(capacity_ * 2);
@@ -193,11 +195,7 @@ template<typename T>
 void MyArray<T>::Set(int index, T t) {
   if (index < 0 || index >= size_) {
     std::cout << "Set Fail. Index is illegal." << std::endl;
-    throw "Set fail. Index is illegal.";
-  }
-  if (IsEmpty()) {
-    std::cout << "Set Fail. Array is empty." << std::endl;
-    throw "Set fail. Array is empty.";
+    throw std::invalid_argument("Set fail. Index is illegal.");
   }
   data_[index] = t;
 }
@@ -206,11 +204,11 @@ template<typename T>
 T MyArray<T>::Get(int index) const {
   if (index < -1 || index >= size_) {
     std::cout << "Get fail. Index is illegal." << std::endl;
-    throw "Get fail. Index is illegal.";
+    throw std::invalid_argument("Get fail. Index is illegal.");
   }
   if (IsEmpty()) {
     std::cout << "Get fail. Array is empty." << std::endl;
-    throw "Get fail. Array is empty.";
+    throw std::range_error("Get fail. Array is empty.");
   }
 
   return data_[index];
@@ -240,11 +238,7 @@ template<typename T>
 T MyArray<T>::Remove(int index) {
   if (index < 0 || index >= size_) {
     std::cout << "Remove fail. Index is illegal." << std::endl;
-    throw "Remove fail. Index is illegal.";
-  }
-  if (IsEmpty()) {
-    std::cout << "Remove fail. Array is empty." << std::endl;
-    throw "Remove fail. Array is empty.";
+    throw std::invalid_argument("Remove fail. Index is illegal.");
   }
   if (size_ <= capacity_ / 4 && capacity_ / 2 != 0) {
     Resize(capacity_ / 2);
@@ -276,10 +270,6 @@ void MyArray<T>::RemoveElement(T t) {
 
 template<typename T>
 int MyArray<T>::Find(T t) const {
-  if (IsEmpty()) {
-    std::cout << "Find fail. Array is empty." << std::endl;
-    throw "Find Fail. Array is empty";
-  }
   for (int i = 0; i < size_; ++i) {
     if (data_[i] == t) {
       return i;
@@ -295,10 +285,7 @@ bool MyArray<T>::Contain(T t) const {
 
 template<typename T>
 void MyArray<T>::Resize(int new_capacity) {
-  if (new_capacity <= 0) {
-    std::cout << "Resize fail. New_capacity is illegal." << std::endl;
-    throw "Resize fail. New_capacity is illegal.";
-  }
+  assert(new_capacity <= 0);
   T *new_data = new T[new_capacity];
   for (int i = 0; i < size_; ++i) {
     new_data[i] = std::move(data_[i]);
