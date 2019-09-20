@@ -118,6 +118,7 @@ TEST_F(ArrayTest, MoveTest) {
   EXPECT_EQ(10,my_array1.GetSize());
   EXPECT_EQ(0,my_array.GetSize());
   EXPECT_EQ(0,my_array_.GetSize());
+  EXPECT_EQ(5,my_array1.Get(5));
 }
 
 // 测试 << 重载
