@@ -206,10 +206,6 @@ T MyArray<T>::Get(int index) const {
     std::cout << "Get fail. Index is illegal." << std::endl;
     throw std::invalid_argument("Get fail. Index is illegal.");
   }
-  if (IsEmpty()) {
-    std::cout << "Get fail. Array is empty." << std::endl;
-    throw std::range_error("Get fail. Array is empty.");
-  }
 
   return data_[index];
 }
