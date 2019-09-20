@@ -10,7 +10,7 @@ class MyArray {
  private:
   int size_;
   int capacity_;
-  T* data_{nullptr};
+  T *data_{nullptr};
 
  public:
   MyArray();                                   // 无参构造函数
@@ -18,9 +18,9 @@ class MyArray {
   ~MyArray();                                  // *析构函数阻止隐式移动构造函数
   MyArray(const MyArray &arr);                 // 拷贝构造
   MyArray(MyArray &&arr) noexcept;             // 移动构造函数
-  MyArray &operator=(const MyArray& arr);      // 重载赋值操作符
-  MyArray &operator=(MyArray&& arr) noexcept;  // 重载移动赋值操作符
-  T &operator[](int index);                    // 重载[]操作赋
+  MyArray &operator=(const MyArray &arr);      // 重载赋值操作符
+  MyArray &operator=(MyArray &&arr) noexcept;  // 重载移动赋值操作符
+  T &operator[](int index);                    // 重载 [] 操作赋
 
   //友元函数实现 重载输出 << 操作符
   friend std::ostream &operator<<(std::ostream &out, MyArray<T> &obj) {
@@ -36,43 +36,43 @@ class MyArray {
     return out;
   }
 
-  bool IsFull() const;
-  bool IsEmpty() const;
-  void Add(int index, T t);
-  void AddFirst(T t);
-  void AddLast(T t);
-  void Set(int index, T t);
-  T Get(int index) const;
-  T GetFirst() const;
-  T GetLast() const;
-  int GetSize() const;
-  int GetCapacity() const;
-  T Remove(int index);
-  T RemoveFirst();
-  T RemoveLast();
-  void RemoveElement(T t);
-  int Find(T t) const;
-  bool Contain(T t) const;
-  void Resize(int new_capacity);
+  int  GetSize() const;            // 获取数组元素个数
+  int  GetCapacity() const;        // 获取数组容量
+  bool IsFull() const;             // 判断数组是否已满
+  bool IsEmpty() const;            // 判断数组是否为空
+  void Add(int index, T t);        // 在指定位置插入元素 t
+  void AddFirst(T t);              // 头部添加元素
+  void AddLast(T t);               // 尾部添加元素
+  void Set(int index, T t);        // 将指定位置元素设为 t
+  T    Get(int index) const;       // 查看 index 位置的元素
+  T    GetFirst() const;           // 获取第一个元素
+  T    GetLast() const;            // 获取最后一个元素
+  T    Remove(int index);          // 删除指定位置元素
+  T    RemoveFirst();              // 删除第一个元素
+  T    RemoveLast();               // 删除最后一个元素
+  void RemoveElement(T t);         // 删除元素 t
+  int  Find(T t) const;            // 查找元素 t 的下标
+  bool Contain(T t) const;         // 判断是否包含元素 t
+  void Resize(int new_capacity);   // 重新分配空间
 };
 
 template<typename T>
 MyArray<T>::MyArray() {
-  size_     = 0;
+  size_ = 0;
   capacity_ = 10;
-  data_     = new T[capacity_];
+  data_ = new T[capacity_];
   std::cout << "调用 MyArray() 构造." << std::endl;
 }
 
 template<typename T>
 MyArray<T>::MyArray(int capacity) {
-  if (capacity <= 0){
+  if (capacity <= 0) {
     std::cout << "MyArray(int) error. Capacity is illegal." << std::endl;
     throw "MyArray(int) error. Capacity is illegal.";
   }
-  size_     = 0;
+  size_ = 0;
   capacity_ = capacity;
-  data_     = new T[capacity_];
+  data_ = new T[capacity_];
   std::cout << "调用 MyArray(int capacity) 构造." << std::endl;
 }
 
@@ -82,16 +82,16 @@ MyArray<T>::~MyArray() {
     delete[] data_;
     data_ = nullptr;
   }
-  size_     = 0;
+  size_ = 0;
   capacity_ = 0;
   std::cout << "调用 ~MyArray() 析构." << std::endl;
 }
 
 template<typename T>
 MyArray<T>::MyArray(const MyArray &arr) {
-  this->size_     = arr.size_;
+  this->size_ = arr.size_;
   this->capacity_ = arr.capacity_;
-  this->data_     = new T[capacity_];
+  this->data_ = new T[capacity_];
   for (int i = 0; i < size_; ++i) {
     this->data_[i] = arr.data_[i];
   }
@@ -100,6 +100,7 @@ MyArray<T>::MyArray(const MyArray &arr) {
 
 template<typename T>
 MyArray<T>::MyArray(MyArray &&arr) noexcept {
+  assert(this != &arr);
   capacity_ = std::exchange(arr.capacity_, 0);
   size_ = std::exchange(arr.size_, 0);    // 非类类型成员的显式移动
   data_ = std::move(arr.data_);           // 类类型成员的显式移动
@@ -108,7 +109,8 @@ MyArray<T>::MyArray(MyArray &&arr) noexcept {
 }
 
 template<typename T>
-MyArray<T> &MyArray<T>::operator=(const MyArray<T>& arr) {
+MyArray<T> &MyArray<T>::operator=(const MyArray<T> &arr) {
+  assert(this != &arr);
   if (this->data_ != nullptr) {
     delete[] this->data_;
     this->data_ = nullptr;
@@ -129,10 +131,7 @@ MyArray<T> &MyArray<T>::operator=(const MyArray<T>& arr) {
 
 template<typename T>
 MyArray<T> &MyArray<T>::operator=(MyArray<T> &&arr) noexcept {
-  if (this == &arr) {
-    std::cout << "调用 = 移动赋值操作 " << std::endl;
-    return *this;
-  }
+  assert(this != &arr);
   if (this->data_ != nullptr) {
     delete[] this->data_;
     this->data_ = nullptr;
@@ -180,7 +179,6 @@ void MyArray<T>::Add(int index, T t) {
   if (IsFull()) {
     Resize(capacity_ * 2);
   }
-
   for (int i = size_; i > index; --i) {
     data_[i] = data_[i - 1];
   }
@@ -304,7 +302,7 @@ bool MyArray<T>::Contain(T t) const {
 
 template<typename T>
 void MyArray<T>::Resize(int new_capacity) {
-  if (new_capacity <= 0){
+  if (new_capacity <= 0) {
     std::cout << "Resize fail. New_capacity is illegal." << std::endl;
     throw "Resize fail. New_capacity is illegal.";
   }
@@ -317,6 +315,5 @@ void MyArray<T>::Resize(int new_capacity) {
   capacity_ = new_capacity;
   std::cout << "Resize Capacity = " << new_capacity << std::endl;
 }
-
 
 #endif //DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
