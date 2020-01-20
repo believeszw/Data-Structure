@@ -15,16 +15,16 @@ class MyArray {
   T *data_{nullptr};
 
  public:
-  MyArray();                                   // 无参构造函数
-  explicit MyArray(int capacity);              // 构造函数，传入容量 capacity
-  ~MyArray();                                  // *析构函数阻止隐式移动构造函数
-  MyArray(const MyArray &arr);                 // 拷贝构造
-  MyArray(MyArray &&arr) noexcept;             // 移动构造函数
-  MyArray &operator=(const MyArray &arr);      // 重载赋值操作符
-  MyArray &operator=(MyArray &&arr) noexcept;  // 重载移动赋值操作符
-  T &operator[](int index);                    // 重载 [] 操作赋
+  MyArray();                                         // 无参构造函数
+  explicit MyArray(int capacity);                    // 构造函数，传入容量 capacity
+  ~MyArray();                                        // *析构函数阻止隐式移动构造函数
+  MyArray(const MyArray<T> &arr);                    // 拷贝构造
+  MyArray(MyArray<T> &&arr) noexcept;                // 移动构造函数
+  MyArray<T> &operator=(const MyArray<T> &arr);      // 重载赋值操作符
+  MyArray<T> &operator=(MyArray<T> &&arr) noexcept;  // 重载移动赋值操作符
+  T &operator[](int index);                          // 重载 [] 操作赋
 
-  //友元函数实现 重载输出 << 操作符
+  // 友元函数实现 重载输出 << 操作符
   friend std::ostream &operator<<(std::ostream &out, MyArray<T> &obj) {
     out << "MyArray size = " << obj.size_ << ", Capacity = " << obj.capacity_ << std::endl;
     out << "MyArray: [";
@@ -91,7 +91,7 @@ MyArray<T>::~MyArray() {
 }
 
 template<typename T>
-MyArray<T>::MyArray(const MyArray &arr) {
+MyArray<T>::MyArray(const MyArray<T> &arr) {
   this->size_     = arr.size_;
   this->capacity_ = arr.capacity_;
   this->data_     = new T[capacity_];
@@ -102,7 +102,7 @@ MyArray<T>::MyArray(const MyArray &arr) {
 }
 
 template<typename T>
-MyArray<T>::MyArray(MyArray &&arr) noexcept {
+MyArray<T>::MyArray(MyArray<T> &&arr) noexcept {
   assert(this != &arr);
   capacity_ = std::exchange(arr.capacity_, 0);
   size_     = std::exchange(arr.size_, 0);       // 非类类型成员的显式移动 // 类类型成员的显式移动使用 std::move
@@ -121,9 +121,9 @@ MyArray<T> &MyArray<T>::operator=(const MyArray<T> &arr) {
   this->size_     = arr.size_;
   this->capacity_ = arr.capacity_;
   this->data_     = new T[capacity_];
-  //拷贝数据
+  // 拷贝数据
   for (int i = 0; i < size_; i++) {
-    //如果是自定义的复杂数据类型，必须对 = 运算赋进行重载,  operator=
+    // 如果是自定义的复杂数据类型，必须对 = 运算赋进行重载,  operator=
     this->data_[i] = arr.data_[i];
   }
 
@@ -138,7 +138,7 @@ MyArray<T> &MyArray<T>::operator=(MyArray<T> &&arr) noexcept {
     delete[] this->data_;
     this->data_ = nullptr;
   }
-  //分配内存
+  // 分配内存
   this->size_ = std::exchange(arr.size_, 0);
   this->capacity_ = std::exchange(arr.capacity_, 0);
   this->data_ = std::exchange(arr.data_, nullptr);
@@ -300,4 +300,4 @@ void MyArray<T>::Resize(int new_capacity) {
   std::cout << "Resize Capacity = " << new_capacity << std::endl;
 }
 
-#endif //DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
+#endif // DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
