@@ -172,6 +172,7 @@ void MyArray<T>::Add(int index, T t) {
     throw std::invalid_argument("Add fail. Index is illegal.");
   }
   if (IsFull()) {
+    std::cout << capacity_ << std::endl;
     Resize(capacity_ * 2);
   }
   for (int i = size_; i > index; --i) {
@@ -281,7 +282,8 @@ bool MyArray<T>::Contain(T t) const {
 
 template<typename T>
 void MyArray<T>::Resize(int new_capacity) {
-  assert(new_capacity <= 0);
+  std::cout << new_capacity << std::endl;
+  assert(new_capacity > 0);
   T *new_data = new T[new_capacity];
   for (int i = 0; i < size_; ++i) {
     new_data[i] = std::move(data_[i]);

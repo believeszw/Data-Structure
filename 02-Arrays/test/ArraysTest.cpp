@@ -17,6 +17,13 @@ class ArrayTest : public testing::Test {
   MyArray<int> my_array_;
 };
 
+GTEST_API_ int main(int argc, char **argv)
+{
+    std::cout << "Run All Test ! " << std::endl;
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
 TEST(ArrayTestNoF, IsEmpty) {
   MyArray<int> my_array(10);
   EXPECT_TRUE(my_array.IsEmpty());
