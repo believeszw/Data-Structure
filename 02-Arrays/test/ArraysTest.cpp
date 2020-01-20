@@ -13,6 +13,7 @@ class ArrayTest : public testing::Test {
     }
   }
   void TearDown() override {
+    my_array_.Clear();
   }
   MyArray<int> my_array_;
 };

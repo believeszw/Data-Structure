@@ -53,6 +53,7 @@ class MyArray {
   T    RemoveFirst();              // 删除第一个元素
   T    RemoveLast();               // 删除最后一个元素
   void RemoveElement(T t);         // 删除元素 t
+  void Clear();                    // 清空数组
   int  Find(T t) const;            // 查找元素 t 的下标
   bool Contain(T t) const;         // 判断是否包含元素 t
   void Resize(int new_capacity);   // 重新分配空间
@@ -116,7 +117,7 @@ MyArray<T> &MyArray<T>::operator=(const MyArray<T> &arr) {
     delete[] this->data_;
     this->data_ = nullptr;
   }
-  //分配内存
+  // 分配内存
   this->size_     = arr.size_;
   this->capacity_ = arr.capacity_;
   this->data_     = new T[capacity_];
@@ -263,6 +264,11 @@ template<typename T>
 void MyArray<T>::RemoveElement(T t) {
   int index = Find(t);
   index != -1 && Remove(index);
+}
+
+template<typename T>
+void MyArray<T>::Clear() {
+  size_ = 0;
 }
 
 template<typename T>
