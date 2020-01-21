@@ -1,5 +1,5 @@
 //
-// Created by SZW on 2020/1/20.
+// Created by believe on 2020/1/20.
 //
 
 #ifndef DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_STACK_H_

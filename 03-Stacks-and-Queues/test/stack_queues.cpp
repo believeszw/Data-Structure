@@ -1,11 +1,10 @@
 //
-// Created by SZW on 2020/1/20.
+// Created by believe on 2020/1/20.
 //
 
 #include "gtest/gtest.h"
 #include "array_stack.h"
 
-// 初始化
 class ArrayStackTest : public testing::Test {
  protected:
   void SetUp() override {
@@ -52,7 +51,6 @@ TEST_F(ArrayStackTest, CopyConstructorTest) {
   EXPECT_EQ(9,array_stack.Peek());
 }
 
-// 赋值拷贝测试
 TEST_F(ArrayStackTest, CopyAssignedTest) {
   ArrayStack<int> array_stack;
   array_stack = array_stack_;
@@ -60,8 +58,6 @@ TEST_F(ArrayStackTest, CopyAssignedTest) {
   EXPECT_EQ(9,array_stack.Peek());
 }
 
-
-// 移动构造和移动赋值测试
 TEST_F(ArrayStackTest, MoveTest) {
   // 移动拷贝构造
   ArrayStack<int> array_stack(std::move(array_stack_));
@@ -80,7 +76,6 @@ TEST_F(ArrayStackTest, MoveTest) {
   EXPECT_EQ(9,array_stack1.Peek());
 }
 
-// [] 测试
 TEST_F(ArrayStackTest, SquareBracketsTest) {
   EXPECT_EQ(0,array_stack_[0]);
   EXPECT_EQ(1,array_stack_[1]);
