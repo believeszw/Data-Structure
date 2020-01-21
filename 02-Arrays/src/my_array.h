@@ -10,8 +10,8 @@
 template<typename T>
 class MyArray {
  private:
-  int size_;
-  int capacity_;
+  int size_{0};
+  int capacity_{0};
   T *data_{nullptr};
 
  public:
@@ -61,7 +61,6 @@ class MyArray {
 
 template<typename T>
 MyArray<T>::MyArray() {
-  size_     = 0;
   capacity_ = 10;
   data_     = new T[capacity_];
   std::cout << "调用 MyArray() 构造." << std::endl;
@@ -73,7 +72,6 @@ MyArray<T>::MyArray(int capacity) {
     std::cout << "MyArray(int) error. Capacity is illegal." << std::endl;
     throw std::invalid_argument("MyArray(int) error. Capacity is illegal.");
   }
-  size_     = 0;
   capacity_ = capacity;
   data_     = new T[capacity_];
   std::cout << "调用 MyArray(int capacity) 构造." << std::endl;
@@ -173,7 +171,6 @@ void MyArray<T>::Add(int index, T t) {
     throw std::invalid_argument("Add fail. Index is illegal.");
   }
   if (IsFull()) {
-    std::cout << capacity_ << std::endl;
     Resize(capacity_ * 2);
   }
   for (int i = size_; i > index; --i) {
@@ -288,7 +285,6 @@ bool MyArray<T>::Contain(T t) const {
 
 template<typename T>
 void MyArray<T>::Resize(int new_capacity) {
-  std::cout << new_capacity << std::endl;
   assert(new_capacity > 0);
   T *new_data = new T[new_capacity];
   for (int i = 0; i < size_; ++i) {
