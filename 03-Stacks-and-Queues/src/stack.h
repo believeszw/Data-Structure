@@ -6,7 +6,7 @@
 #define DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_STACK_H_
 
 template <typename T>
-class Stack {
+class IStack {
  public:
   virtual int GetSize() = 0;
   virtual bool IsEmpty() = 0;

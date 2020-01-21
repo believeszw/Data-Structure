@@ -9,7 +9,7 @@
 #include "stack.h"
 
 template<typename T>
-class ArrayStack : public Stack<T> {
+class ArrayStack : public IStack<T> {
  private:
   MyArray<T> *my_array_;
  public:
