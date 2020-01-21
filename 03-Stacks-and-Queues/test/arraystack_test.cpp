@@ -42,6 +42,7 @@ TEST(ArrayStackTestNoF, PushAndPop) {
 
 TEST_F(ArrayStackTest, GetSizeAndGetCapacity) {
   EXPECT_EQ(10,array_stack_.GetSize());
+  EXPECT_EQ(10,array_stack_.GetCapacity());
   EXPECT_EQ(9,array_stack_.Peek());
 }
 
@@ -76,7 +77,6 @@ TEST_F(ArrayStackTest, MoveTest) {
   EXPECT_EQ(9,array_stack1.Peek());
 }
 
-TEST_F(ArrayStackTest, SquareBracketsTest) {
-  EXPECT_EQ(0,array_stack_[0]);
-  EXPECT_EQ(1,array_stack_[1]);
+TEST_F(ArrayStackTest, OperatorTest) {
+  std::cout << array_stack_ << std::endl;
 }

@@ -125,7 +125,7 @@ MyArray<T> &MyArray<T>::operator=(const MyArray<T> &arr) {
     this->data_[i] = arr.data_[i];
   }
 
-  std::cout << "调用 = 赋值操作 " << std::endl;
+  std::cout << "调用 MyArray = 赋值操作 " << std::endl;
   return *this;
 }
 
@@ -140,7 +140,7 @@ MyArray<T> &MyArray<T>::operator=(MyArray<T> &&arr) noexcept {
   this->size_ = std::exchange(arr.size_, 0);
   this->capacity_ = std::exchange(arr.capacity_, 0);
   this->data_ = std::exchange(arr.data_, nullptr);
-  std::cout << "调用 = 移动赋值操作 " << std::endl;
+  std::cout << "调用 MyArray = 移动赋值操作 " << std::endl;
   return *this;
 }
 
@@ -150,7 +150,7 @@ T &MyArray<T>::operator[](int index) {
     std::cout << "[] fail. Index is illegal." << std::endl;
     throw std::invalid_argument("[] fail. Index is illegal.");
   }
-  std::cout << "[] 调用" << std::endl;
+  std::cout << "MyArray [] 调用" << std::endl;
   return this->data_[index];
 }
 
