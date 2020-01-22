@@ -6,7 +6,7 @@
 #define DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAYSTACK_H_
 
 #include "my_array.h"
-#include "stack.h"
+#include "i_stack.h"
 
 template<typename T>
 class ArrayStack : public IStack<T> {
