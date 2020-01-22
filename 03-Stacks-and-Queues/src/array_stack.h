@@ -33,11 +33,11 @@ class ArrayStack : public IStack<T> {
     return out;
   }
 
-  int GetSize() override;
-  bool IsEmpty() override;
-  void Push(T t) override;
-  T Pop() override;
-  T Peek() override;
+  int GetSize() final;
+  bool IsEmpty() final;
+  void Push(T t) final;
+  T Pop() final;
+  T Peek() final;
   int GetCapacity() const;
   void Clear();
 };
