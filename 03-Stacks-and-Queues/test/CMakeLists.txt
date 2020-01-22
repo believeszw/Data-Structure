@@ -1,7 +1,5 @@
 project(StackQueues)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11 -Wall")
-
 include_directories(${PROJECT_SOURCE_DIR}/../../include)
 include_directories(${PROJECT_SOURCE_DIR}/../src)
 include_directories(${PROJECT_SOURCE_DIR}/../../02-Arrays/src)

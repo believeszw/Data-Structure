@@ -5,6 +5,7 @@
 #ifndef DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
 #define DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
 
+#include <utility>
 #include <stdexcept>
 
 template<typename T>
