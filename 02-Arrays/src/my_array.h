@@ -169,7 +169,7 @@ bool MyArray<T>::IsEmpty() const {
 
 template<typename T>
 void MyArray<T>::Add(int index, T t) {
-  if (index < -1 || index > size_) {
+  if (index < 0 || index > size_) {
     std::cout << "Add fail. Index is illegal." << std::endl;
     throw std::invalid_argument("Add fail. Index is illegal.");
   }
@@ -204,7 +204,7 @@ void MyArray<T>::Set(int index, T t) {
 
 template<typename T>
 T MyArray<T>::Get(int index) const {
-  if (index < -1 || index >= size_) {
+  if (index < 0 || index >= size_) {
     std::cout << "Get fail. Index is illegal." << std::endl;
     throw std::invalid_argument("Get fail. Index is illegal.");
   }

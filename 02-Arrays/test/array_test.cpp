@@ -133,3 +133,13 @@ TEST_F(ArrayTest, MoveTest) {
 TEST_F(ArrayTest, OperatorTest) {
   std::cout << my_array_ << std::endl;
 }
+
+// 100% 覆盖率，少数情况
+TEST_F(ArrayTest, AdditionTest) {
+  EXPECT_THROW(MyArray<int> my_array(-1), std::invalid_argument);
+  EXPECT_THROW(my_array_[-1], std::invalid_argument);
+  EXPECT_THROW(my_array_.Add(-1, -1), std::invalid_argument);
+  EXPECT_THROW(my_array_.Get(-1), std::invalid_argument);
+  EXPECT_THROW(my_array_.Set(-1, -1), std::invalid_argument);
+  EXPECT_THROW(my_array_.Remove(-1), std::invalid_argument);
+}
