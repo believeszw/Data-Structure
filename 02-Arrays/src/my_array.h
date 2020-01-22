@@ -5,8 +5,10 @@
 #ifndef DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
 #define DATA_STRUCTURE_ARRAYS_SRC_MYARRAY_H_
 
+#include <iostream>
 #include <utility>
 #include <stdexcept>
+#include <cassert>
 
 template<typename T>
 class MyArray {
