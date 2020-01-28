@@ -10,8 +10,7 @@
 
 template<typename T>
 class ArrayStack : public IStack<T> {
- private:
-  MyArray<T> *my_array_;
+  MyArray<T> *my_array_{nullptr};
  public:
   ArrayStack();
   explicit ArrayStack(int capacity);
