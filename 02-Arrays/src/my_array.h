@@ -59,6 +59,7 @@ class MyArray {
   void Clear();                    // 清空数组
   int  Find(T t) const;            // 查找元素 t 的下标
   bool Contain(T t) const;         // 判断是否包含元素 t
+ private:
   void Resize(int new_capacity);   // 重新分配空间
 };
 
