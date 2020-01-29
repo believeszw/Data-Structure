@@ -32,11 +32,11 @@ class ArrayStack : public IStack<T> {
     return out;
   }
 
-  int GetSize() final;
+  int GetSize() const final;
   bool IsEmpty() final;
   void Push(T t) final;
   T Pop() final;
-  T Peek() final;
+  T Peek() const final;
   int GetCapacity() const;
   void Clear();
 };
@@ -87,7 +87,7 @@ ArrayStack<T> &ArrayStack<T>::operator=(ArrayStack<T> &&obj) noexcept{
 }
 
 template<typename T>
-int ArrayStack<T>::GetSize() {
+int ArrayStack<T>::GetSize() const {
   return my_array_->GetSize();
 }
 
@@ -107,7 +107,7 @@ T ArrayStack<T>::Pop() {
 }
 
 template<typename T>
-T ArrayStack<T>::Peek() {
+T ArrayStack<T>::Peek() const {
   return my_array_->GetLast();
 }
 
