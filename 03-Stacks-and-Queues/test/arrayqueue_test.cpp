@@ -18,9 +18,19 @@ class ArrayQueueTest : public testing::Test {
   ArrayQueue<int> array_queue_;
 };
 
-TEST(ArrayQueueTestNoF,NOF){
+TEST(ArrayQueueTestNoF,IsEmpty){
   ArrayQueue<int> array_queue(15);
   EXPECT_TRUE(array_queue.IsEmpty());
+}
+
+TEST(ArrayQueueTestNoF, EnqueAndDeque) {
+  ArrayQueue<int> array_queue;
+  array_queue.Enqueue(1);
+  array_queue.Enqueue(2);
+  array_queue.Enqueue(3);
+  EXPECT_EQ(1,array_queue.Dequeue());
+  EXPECT_EQ(2,array_queue.Dequeue());
+  EXPECT_EQ(3,array_queue.Dequeue());
 }
 
 TEST_F(ArrayQueueTest, GetSizeAndGetCapacity) {
@@ -35,31 +45,31 @@ TEST_F(ArrayQueueTest, CopyConstructorTest) {
   EXPECT_EQ(0,array_stack.GetFront());
 }
 
-//TEST_F(ArrayQueueTest, CopyAssignedTest) {
-//  ArrayStack<int> array_stack;
-//  array_stack = array_stack_;
-//  EXPECT_EQ(10,array_stack.GetSize());
-//  EXPECT_EQ(9,array_stack.Peek());
-//}
-//
-//TEST_F(ArrayQueueTest, MoveTest) {
-//  // 移动拷贝构造
-//  ArrayStack<int> array_stack(std::move(array_stack_));
-//
-//  // 移动赋值传入本身 会报错
-////  array_stack = std::move(array_stack);
-////  EXPECT_EQ(10,array_stack.GetSize());
-////  EXPECT_EQ(9,array_stack.Peek());
-//
-//  ArrayStack<int> array_stack1;
-//  // 移动赋值
-//  array_stack1 = std::move(array_stack);
-//  EXPECT_EQ(0,array_stack_.GetSize());
-//  EXPECT_EQ(0,array_stack.GetSize());
-//  EXPECT_EQ(10,array_stack1.GetSize());
-//  EXPECT_EQ(9,array_stack1.Peek());
-//}
-//
-//TEST_F(ArrayQueueTest, OperatorTest) {
-//  std::cout << array_stack_ << std::endl;
-//}
+TEST_F(ArrayQueueTest, CopyAssignedTest) {
+  ArrayQueue<int> array_queue;
+  array_queue = array_queue_;
+  EXPECT_EQ(10,array_queue.GetSize());
+  EXPECT_EQ(0,array_queue.GetFront());
+}
+
+TEST_F(ArrayQueueTest, MoveTest) {
+  // 移动拷贝构造
+  ArrayQueue<int> array_queue(std::move(array_queue_));
+
+  // 移动赋值传入本身 会报错
+//  array_queue = std::move(array_queue);
+//  EXPECT_EQ(10,array_queue.GetSize());
+//  EXPECT_EQ(0,array_queue.GetFront());
+
+  ArrayQueue<int> array_queue1;
+  // 移动赋值
+  array_queue1 = std::move(array_queue);
+  EXPECT_EQ(0,array_queue_.GetSize());
+  EXPECT_EQ(0,array_queue.GetSize());
+  EXPECT_EQ(10,array_queue1.GetSize());
+  EXPECT_EQ(0,array_queue1.GetFront());
+}
+
+TEST_F(ArrayQueueTest, OperatorTest) {
+  std::cout << array_queue_ << std::endl;
+}

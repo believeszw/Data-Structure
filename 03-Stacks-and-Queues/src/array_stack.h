@@ -75,7 +75,7 @@ ArrayStack<T> &ArrayStack<T>::operator=(const ArrayStack<T> &obj) {
 
 template<typename T>
 ArrayStack<T>::ArrayStack(ArrayStack<T> &&obj) noexcept{
-  std::cout << "调用 ArrayStack(const ArrayStack<T> &&obj) 移动拷贝构造" << std::endl;
+  std::cout << "调用 ArrayStack(ArrayStack<T> &&obj) 移动拷贝构造" << std::endl;
   this->my_array_ = new MyArray<T>(std::move(*obj.my_array_));
 }
 
