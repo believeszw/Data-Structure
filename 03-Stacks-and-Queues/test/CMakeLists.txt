@@ -1,9 +1,9 @@
 project(StackQueues)
 
-include_directories(${PROJECT_SOURCE_DIR}/../../include)
+#include_directories(${PROJECT_SOURCE_DIR}/../../include)
 include_directories(${PROJECT_SOURCE_DIR}/../src)
 include_directories(${PROJECT_SOURCE_DIR}/../../02-Arrays/src)
-link_directories(${PROJECT_SOURCE_DIR}/../../gtest)
+#link_directories(${PROJECT_SOURCE_DIR}/../../gtest)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin/${COMPILE_PLAT})
 

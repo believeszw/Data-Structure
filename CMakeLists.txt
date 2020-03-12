@@ -3,7 +3,18 @@ project(Data_structure)
 
 set(CMAKE_CXX_STANDARD 14)
 
-# --coverage 用于统计测试覆盖率
+# googletest
+set(GOOGLETEST_VERSION 1.10.0)
+add_subdirectory(
+        googletest/googletest
+)
+include_directories(
+        googletest/googletest/include
+)
+# end
+
+# -g 调试信息
+# -Wall 开启所有警告
 # -fsanitize=address
 # Out-of-bounds accesses to heap, stack and globals
 # Use-after-free
@@ -11,7 +22,13 @@ set(CMAKE_CXX_STANDARD 14)
 # Use-after-scope (clang flag -fsanitize-address-use-after-scope)
 # Double-free, invalid free
 # Memory leaks (experimental)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --coverage -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -O0 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fsanitize=address")
+
+# --coverage 用于统计测试覆盖率
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+
+#set(CMAKE_CXX_FLAGS_DEBUG   "-O0" )             # 调试包不优化
+#set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG " )   # release包优化
 
 add_subdirectory(02-Arrays)
 add_subdirectory(03-Stacks-and-Queues)
