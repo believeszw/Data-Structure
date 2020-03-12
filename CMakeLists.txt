@@ -23,7 +23,8 @@ include_directories(
 # Use-after-scope (clang flag -fsanitize-address-use-after-scope)
 # Double-free, invalid free
 # Memory leaks (experimental)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror -O0 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -O0 -Werror -fno-omit-frame-pointer \
+-fno-optimize-sibling-calls -fsanitize=address -fPIE") # -fsanitize=memory -fsanitize-memory-track-origins -pie
 
 # --coverage 用于统计测试覆盖率
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
