@@ -15,6 +15,7 @@ include_directories(
 
 # -g 调试信息
 # -Wall 开启所有警告
+# -Werror 警告视为错误
 # -fsanitize=address
 # Out-of-bounds accesses to heap, stack and globals
 # Use-after-free
@@ -22,7 +23,7 @@ include_directories(
 # Use-after-scope (clang flag -fsanitize-address-use-after-scope)
 # Double-free, invalid free
 # Memory leaks (experimental)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -O0 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror -O0 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fsanitize=address")
 
 # --coverage 用于统计测试覆盖率
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
