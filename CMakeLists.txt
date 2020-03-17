@@ -13,6 +13,14 @@ include_directories(
 )
 # end
 
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    MESSAGE("This is Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+elseif(CMAKE_BUILD_TYPE STREQUAL Release)
+    MESSAGE("This is Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+endif()
+
 # -g 调试信息
 # -Wall 开启所有警告
 # -Werror 警告视为错误
@@ -23,8 +31,13 @@ include_directories(
 # Use-after-scope (clang flag -fsanitize-address-use-after-scope)
 # Double-free, invalid free
 # Memory leaks (experimental)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -O0 -Werror -fno-omit-frame-pointer -fno-optimize-sibling-calls \
--fsanitize=undefined -fsanitize=address -fPIE") # -fsanitize=memory -fsanitize-memory-track-origins -pie
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror -fno-omit-frame-pointer -fno-optimize-sibling-calls \
+-fsanitize=undefined -fPIE -pie") # -fsanitize=memory -fsanitize-memory-track-origins -pie
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread") # 检查数据竞争
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=memory") # access uninited
+
 # -fno-optimize-sibling-calls 尾递归消除
 # -fno-omit-frame-pointer : 保留函数调用的帧信息，以便分析函数调用关系
 # -fsanitize=undefined : 未定义行为检测
