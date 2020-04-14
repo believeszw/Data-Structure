@@ -9,6 +9,7 @@ template <typename T>
 class IStack {
  public:
   virtual int GetSize() const = 0;
+  virtual int GetCapacity() const = 0;
   virtual bool IsEmpty() = 0;
   virtual void Push (T t) = 0;
   virtual T Pop() = 0;

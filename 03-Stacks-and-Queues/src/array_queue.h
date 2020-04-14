@@ -8,7 +8,7 @@
 #include "i_quque.h"
 #include "my_array.h"
 
-template <typename T>
+template<typename T>
 class ArrayQueue : public IQueue<T> {
   MyArray<T> *my_array_{nullptr};
  public:
@@ -17,7 +17,7 @@ class ArrayQueue : public IQueue<T> {
   ArrayQueue(const ArrayQueue<T> &obj);
   ArrayQueue<T> &operator=(const ArrayQueue<T> &obj);
   ArrayQueue(ArrayQueue<T> &&obj) noexcept;
-  ArrayQueue<T> &operator=(ArrayQueue<T> &&obj) noexcept ;
+  ArrayQueue<T> &operator=(ArrayQueue<T> &&obj) noexcept;
   ~ArrayQueue();
 
   friend std::ostream &operator<<(std::ostream &out, const ArrayQueue<T> &obj) {
@@ -38,7 +38,7 @@ class ArrayQueue : public IQueue<T> {
   T Dequeue() final;
   T GetFront() const final;
   void Clear();
-  int GetCapacity() const;
+  int GetCapacity() const final;
 };
 template<typename T>
 ArrayQueue<T>::ArrayQueue() {

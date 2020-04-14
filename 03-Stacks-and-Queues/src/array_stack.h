@@ -15,9 +15,9 @@ class ArrayStack : public IStack<T> {
   ArrayStack();
   explicit ArrayStack(int capacity);
   ArrayStack(const ArrayStack<T> &obj);
-  ArrayStack<T> &operator= (const ArrayStack<T> &obj);
+  ArrayStack<T> &operator=(const ArrayStack<T> &obj);
   ArrayStack(ArrayStack<T> &&obj) noexcept;
-  ArrayStack<T> &operator= (ArrayStack<T> &&obj) noexcept;
+  ArrayStack<T> &operator=(ArrayStack<T> &&obj) noexcept;
   ~ArrayStack();
 
   friend std::ostream &operator<<(std::ostream &out, ArrayStack<T> &obj) {
@@ -37,7 +37,7 @@ class ArrayStack : public IStack<T> {
   void Push(T t) final;
   T Pop() final;
   T Peek() const final;
-  int GetCapacity() const;
+  int GetCapacity() const final;
   void Clear();
 };
 
@@ -74,13 +74,13 @@ ArrayStack<T> &ArrayStack<T>::operator=(const ArrayStack<T> &obj) {
 }
 
 template<typename T>
-ArrayStack<T>::ArrayStack(ArrayStack<T> &&obj) noexcept{
+ArrayStack<T>::ArrayStack(ArrayStack<T> &&obj) noexcept {
   std::cout << "调用 ArrayStack(ArrayStack<T> &&obj) 移动拷贝构造" << std::endl;
   this->my_array_ = new MyArray<T>(std::move(*obj.my_array_));
 }
 
 template<typename T>
-ArrayStack<T> &ArrayStack<T>::operator=(ArrayStack<T> &&obj) noexcept{
+ArrayStack<T> &ArrayStack<T>::operator=(ArrayStack<T> &&obj) noexcept {
   std::cout << "调用 ArrayStack = 移动赋值" << std::endl;
   *this->my_array_ = std::move(*obj.my_array_);
   return *this;

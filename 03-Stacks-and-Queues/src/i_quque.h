@@ -7,7 +7,9 @@
 
 template <typename T>
 class IQueue {
+ public:
   virtual int GetSize() const = 0;
+  virtual int GetCapacity() const = 0;
   virtual bool IsEmpty() = 0;
   virtual void Enqueue(T t) = 0;
   virtual T Dequeue() = 0;
