@@ -7,7 +7,7 @@ include_directories(${PROJECT_SOURCE_DIR}/../../02-Arrays/src)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin/${COMPILE_PLAT})
 
-SET(TEST_SRC arraystack_test.cpp arrayqueue_test.cpp)
+SET(TEST_SRC arraystack_test.cpp arrayqueue_test.cpp loopqueue_test.cpp)
 
 SET(TEST_LIB gtest gtest_main -lpthread)
 
