@@ -1,10 +1,42 @@
-/*
-!.gitignore
-!CmakeLists.txt
-!gtest
-!include
-!readme.md
-!01-Introduction
-!02-Arrays
-!03-Stacks-and-Queues
-!googletest
+# 项目目录  
+#project/
+
+# 编译器缓存文件  
+*.pyc  
+*.pyo
+
+# 模板文件  
+*.模板
+
+# 资源文件  
+*.res  
+*.rc
+
+# 头文件目录  
+*.h  
+*/*.h
+
+# 临时文件  
+*.temp
+
+# 安装文件  
+#*/install_name.h
+#*/install_name_tool.exe
+
+# 预编译头文件  
+*.h.pch
+
+# 源代码文件  
+*.cpp  
+*.c
+
+# 其他文件和目录  
+.git/  
+.DS_Store
+.idea/
+cmake-build-*
+*~  
+# 防止编译器优化导致的文件消失  
+!.gitignore  
+!.git/refs/heads/master  
+!.DS_Store
