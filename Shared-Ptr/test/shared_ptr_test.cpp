@@ -6,94 +6,106 @@
 #include "iostream"
 #include "thread"
 #include "lock_free_ptr.hpp"
+#include "spin_lock_ptr.hpp"
 
+#include <chrono>
+#include <vector>
+#include <atomic>
 
-int main() {
-//    std::cout << typeid(B).name() << std::endl;
-    auto sp = std::make_shared<int> (4);
-    int *ptr = new int[4];
-    lf_atomic_shared_ptr<int> s(ptr);
-    std::thread([&]{
-        static int i = 0;
-        auto begin = std::chrono::high_resolution_clock::now();
-        while (1){
-            s = std::make_shared<int>(i++);
-            if(**s == 100000000){
-                auto end = std::chrono::high_resolution_clock::now();
-                std::cout << "branch mark " << std::chrono::duration_cast<std::chrono::milliseconds>(end-begin).count() <<  std::endl;
-                break;
-            }
+using namespace std::chrono_literals;
+
+struct Data {
+    int value;
+    char buffer[1024];
+
+    Data() {
+        value = 0;
+        for (int i = 0; i < 1024; ++i) {
+            buffer[i] = 'a';
         }
+    }
 
-    }).detach();
-    std::thread([&]{
-        int cnt = 0;
-        while (1) {
-            cnt += **s;
-            if(**s == 100000000) break;
+    Data(int value) : value(value) {
+        for (int i = 0; i < 1024; ++i) {
+            buffer[i] = 'a' + (i % 26);
         }
-    }).detach();
-    while (1);
-//    int * && p = new int(2);
-//    std::cout << typeid(int * &&).name() << std::endl;
-//    std::cout << typeid(const int * &).name() << std::endl;
-//    int * fp = new int(4);
-//    f(fp);
-//    f("123");
-//    std :: cout << (7&~(0x01)) << std::endl;
-//    std::map<int,std::mutex> m;
-//
-//    m.emplace(std::piecewise_construct,
-//              std::forward_as_tuple(0),
-//            std::forward_as_tuple());
-//    m[0].lock();
-//    m[0].unlock();
-//    //    auto pt = std::chrono::system_clock::now().time_since_epoch();
-////    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(pt).count() << std::endl;
-////    auto ptr = std::make_exception_ptr(std::system_error(errno,std::system_category()));
-//    auto begin = std::chrono::steady_clock::now();
-//
-//    auto handle = dlopen("libttvideoeditor-c.dylib", RTLD_LAZY);
-//
-//    std::string str = "hello ,\"key\":123, world";
-//    auto find_it = str.find("\"key\":", 0);
-////    auto find_end = std::find_if(str.begin() + find_it,str.end(),[] (char ch){
-////        return ch == ','|| ch =='\0' || ch=='}';
-////    });
-//    auto find_end = str.find_first_of(",}",find_it);
-//    str.erase(find_it,find_end - find_it + 1 );
-//    std::cout << str << std::endl;
-//    auto end = std::chrono::steady_clock::now();
-//
-//
-//   std::cout << std::abs(std::numeric_limits<int>::min()) << std::endl;
+    }
+};
+
+std::atomic<bool> stop(false);
+
+template <typename SmartPtr>
+void WriterThread(SmartPtr& global_ptr) {
+    while (!stop) {
+        global_ptr = SmartPtr(new Data(123));
+        std::this_thread::sleep_for(10us);
+    }
 }
 
+template <typename SmartPtr>
+void ReaderThread(SmartPtr& global_ptr, std::atomic<int>& count) {
+    while (!stop) {
+        SmartPtr local_ptr = global_ptr;
+        if (local_ptr) {
+            ++count;
+        }
+    }
+}
+
+template <typename SmartPtr>
+void Test(const std::string& name) {
+    SmartPtr global_ptr;
+    std::atomic<int> count(0);
+    std::vector<std::thread> threads;
+    threads.push_back(std::thread(WriterThread<SmartPtr>, std::ref(global_ptr)));
+    threads.push_back(std::thread(WriterThread<SmartPtr>, std::ref(global_ptr)));
+    threads.push_back(std::thread(ReaderThread<SmartPtr>, std::ref(global_ptr), std::ref(count)));
+    threads.push_back(std::thread(ReaderThread<SmartPtr>, std::ref(global_ptr), std::ref(count)));
+
+    std::this_thread::sleep_for(1s);
+    stop = true;
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    std::cout << name << " read count: " << count << std::endl;
+}
+
+//int main() {
+//    Test<LockFreeSharedPtr<Data>>("LockFreeSharedPtr");
+////    Test<lf_atomic_shared_ptr<Data>>("OtherSmartPtr");
+//
+//    return 0;
+//}
+
+
 // 初始化
-//class SharedPtrTest : public testing::Test {
-// protected:
-//  void SetUp() override {
-//    for (int i = 0; i < 10; ++i) {
+class SharedPtrTest : public testing::Test {
+ protected:
+  void SetUp() override {
+    for (int i = 0; i < 10; ++i) {
 //      my_array_.AddLast(i);
-//    }
-//  }
-//  void TearDown() override {
+    }
+  }
+  void TearDown() override {
 //    my_array_.Clear();
-//  }
+  }
 //  lf_atomic_shared_ptr<int> my_array_;
-//};
-//
-//GTEST_API_ int main(int argc, char **argv)
-//{
-//    std::cout << "Run All Test ! " << std::endl;
-//    testing::InitGoogleTest(&argc, argv);
-//    return RUN_ALL_TESTS();
-//}
-//
-//TEST(SharedPtrTestNoF, IsEmpty) {
+};
+
+GTEST_API_ int main(int argc, char **argv)
+{
+    std::cout << "SharedPtr Run All Test ! " << std::endl;
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+TEST(SharedPtrTestNoF, IsEmpty) {
+    std::cout << "SharedPtrTestNoF " << std::endl;
 //  MyArray<int> my_array(10);
-//  EXPECT_TRUE(my_array.IsEmpty());
-//}
+  EXPECT_TRUE(true);
+}
 //
 //TEST(SharedPtrTestNoF, AddAndGet) {
 ////  int * tmp = new int[10];

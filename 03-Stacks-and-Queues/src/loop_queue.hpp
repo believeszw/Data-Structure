@@ -26,17 +26,18 @@ class LoopQueue : public IQueue<T> {
   T Dequeue() final;
   T GetFront() const final;
   void Clear();
+  void resize(int newCapacity);
 };
 template<typename T>
 LoopQueue<T>::LoopQueue() {
   std::cout << "调用 LoopQueue() 构造" << std::endl;
-  data_ = new T[10];
-  capacity_ = 10;
+    LoopQueue(10);
 }
 template<typename T>
 LoopQueue<T>::LoopQueue(int capacity) {
   std::cout << "调用 LoopQueue(int capacity) 构造" << std::endl;
-  data_ = new T[capacity];
+  data_ = new T[capacity + 1];
+  front_ = tail_ = 0;
   capacity_ = capacity;
 }
 template<typename T>
@@ -46,7 +47,6 @@ LoopQueue<T>::~LoopQueue() {
   data_ = nullptr;
   front_ = 0;
   tail_ = 0;
-  capacity_ = 0;
 }
 template<typename T>
 int LoopQueue<T>::GetSize() const {
@@ -62,11 +62,22 @@ bool LoopQueue<T>::IsEmpty() {
 }
 template<typename T>
 T LoopQueue<T>::Dequeue() {
-  return nullptr;
+    if(IsEmpty())
+        return T{};
+
+    auto ret = data_[front_];
+    front_ = (front_ + 1) % GetCapacity();
+    if(GetSize() == GetCapacity() / 4 && GetCapacity() / 2 != 0)
+        resize(GetCapacity() / 2);
+    return ret;
 }
 template<typename T>
 void LoopQueue<T>::Enqueue(T t) {
+    if((tail_ + 1) % GetCapacity() == front_)
+        resize(GetCapacity() * 2);
 
+    data_[tail_] = t;
+    tail_ = (tail_ + 1) % GetCapacity();
 }
 template<typename T>
 T LoopQueue<T>::GetFront() const {
@@ -75,6 +86,17 @@ T LoopQueue<T>::GetFront() const {
 template<typename T>
 void LoopQueue<T>::Clear() {
    front_ = tail_ = 0;
+}
+template<typename T>
+void LoopQueue<T>::resize(int newCapacity) {
+    auto newData = new T[newCapacity + 1];
+    int sz = GetSize();
+    for(int i = 0 ; i < sz ; i ++)
+        newData[i] = data_[(i + front_) % GetCapacity()];
+
+    data_ = newData;
+    front_ = 0;
+    tail_ = sz;
 }
 
 #endif //DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_LOOP_QUEUE_H_

@@ -79,11 +79,16 @@ private:
 template <typename T>
 class LockFreeSharedPtr {
 public:
-    LockFreeSharedPtr() : count_(new CountedPtr(0, new T())) {}
+    LockFreeSharedPtr() {
+        count_.store(new CountedPtr(0, new T()));
+    }
 
-    explicit LockFreeSharedPtr(T* ptr) : count_(new CountedPtr(1, ptr)) {}
+    explicit LockFreeSharedPtr(T* ptr) {
+        count_.store(new CountedPtr(1, ptr));
+    }
 
-    LockFreeSharedPtr(const LockFreeSharedPtr& other) : count_(other.count_) {
+    LockFreeSharedPtr(const LockFreeSharedPtr& other) {
+        count_.store(other.count_);
         AddRef();
     }
 
@@ -99,19 +104,19 @@ public:
     }
 
     T* Get() const {
-        return count_->ptr;
+        return count_.load()->ptr;
     }
 
     T& operator*() const {
-        return *(count_->ptr);
+        return *(count_.load()->ptr);
     }
 
     T* operator->() const {
-        return count_->ptr;
+        return count_.load()->ptr;
     }
 
     operator bool() const {
-        return (count_->ptr != nullptr);
+        return (count_.load()->ptr != nullptr);
     }
 
 private:

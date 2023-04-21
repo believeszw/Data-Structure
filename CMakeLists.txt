@@ -32,7 +32,7 @@ endif()
 # Double-free, invalid free
 # Memory leaks (experimental)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror -fno-omit-frame-pointer -fno-optimize-sibling-calls \
--fsanitize=undefined -fPIE -pie") # -fsanitize=memory -fsanitize-memory-track-origins -pie
+-fsanitize=undefined -fPIE") # -fsanitize=memory -fsanitize-memory-track-origins -pie
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread") # 检查数据竞争
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")

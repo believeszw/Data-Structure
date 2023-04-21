@@ -1,3 +1,3 @@
-project(Shared-Ptr)
+project(SharedPtr)
 
 add_subdirectory(test)

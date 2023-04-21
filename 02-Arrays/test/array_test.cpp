@@ -20,7 +20,7 @@ class ArrayTest : public testing::Test {
 
 GTEST_API_ int main(int argc, char **argv)
 {
-    std::cout << "Run All Test ! " << std::endl;
+    std::cout << "ArrayTest Run All Test ! " << std::endl;
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
