@@ -8,10 +8,10 @@
 #include "i_quque.hpp"
 #include "my_array.hpp"
 
-template<typename T>
-class ArrayQueue : public IQueue<T> {
+template <typename T> class ArrayQueue : public IQueue<T> {
   MyArray<T> *my_array_{nullptr};
- public:
+
+public:
   ArrayQueue();
   explicit ArrayQueue(int capacity);
   ArrayQueue(const ArrayQueue<T> &obj);
@@ -40,79 +40,66 @@ class ArrayQueue : public IQueue<T> {
   void Clear();
   int GetCapacity() const final;
 };
-template<typename T>
-ArrayQueue<T>::ArrayQueue() {
+template <typename T> ArrayQueue<T>::ArrayQueue() {
   std::cout << "调用 ArrayQueue() 构造" << std::endl;
   my_array_ = new MyArray<T>(10);
 }
 
-template<typename T>
-ArrayQueue<T>::ArrayQueue(int capacity) {
+template <typename T> ArrayQueue<T>::ArrayQueue(int capacity) {
   std::cout << "调用 ArrayQueue(int capacity) 构造" << std::endl;
   my_array_ = new MyArray<T>(capacity);
 }
 
-template<typename T>
-ArrayQueue<T>::~ArrayQueue() {
+template <typename T> ArrayQueue<T>::~ArrayQueue() {
   std::cout << "调用 ~ArrayQueue() 析构" << std::endl;
   delete my_array_;
   my_array_ = nullptr;
 }
 
-template<typename T>
-int ArrayQueue<T>::GetSize() const {
+template <typename T> int ArrayQueue<T>::GetSize() const {
   return my_array_->GetSize();
 }
 
-template<typename T>
-bool ArrayQueue<T>::IsEmpty() {
+template <typename T> bool ArrayQueue<T>::IsEmpty() {
   return my_array_->IsEmpty();
 }
 
-template<typename T>
-void ArrayQueue<T>::Enqueue(T t) {
+template <typename T> void ArrayQueue<T>::Enqueue(T t) {
   my_array_->AddLast(t);
 }
 
-template<typename T>
-T ArrayQueue<T>::Dequeue() {
+template <typename T> T ArrayQueue<T>::Dequeue() {
   return my_array_->RemoveFirst();
 }
 
-template<typename T>
-T ArrayQueue<T>::GetFront() const {
+template <typename T> T ArrayQueue<T>::GetFront() const {
   return my_array_->GetFirst();
 }
 
-template<typename T>
-void ArrayQueue<T>::Clear() {
-  my_array_->Clear();
-}
-template<typename T>
-int ArrayQueue<T>::GetCapacity() const {
+template <typename T> void ArrayQueue<T>::Clear() { my_array_->Clear(); }
+template <typename T> int ArrayQueue<T>::GetCapacity() const {
   return my_array_->GetCapacity();
 }
-template<typename T>
-ArrayQueue<T>::ArrayQueue(const ArrayQueue<T> &obj) {
-  std::cout << "调用 ArrayQueue(const ArrayQueue<T> &obj) 拷贝构造" << std::endl;
+template <typename T> ArrayQueue<T>::ArrayQueue(const ArrayQueue<T> &obj) {
+  std::cout << "调用 ArrayQueue(const ArrayQueue<T> &obj) 拷贝构造"
+            << std::endl;
   this->my_array_ = new MyArray<T>(*obj.my_array_);
 }
-template<typename T>
+template <typename T>
 ArrayQueue<T> &ArrayQueue<T>::operator=(const ArrayQueue<T> &obj) {
   std::cout << "调用 ArrayQueue = 赋值" << std::endl;
   *this->my_array_ = *obj.my_array_;
   return *this;
 }
-template<typename T>
-ArrayQueue<T>::ArrayQueue(ArrayQueue<T> &&obj) noexcept {
+template <typename T> ArrayQueue<T>::ArrayQueue(ArrayQueue<T> &&obj) noexcept {
   std::cout << "调用 ArrayQueue(ArrayQueue<T> &&obj) 移动拷贝构造" << std::endl;
   this->my_array_ = new MyArray<T>(std::move(*obj.my_array_));
 }
-template<typename T>
+template <typename T>
 ArrayQueue<T> &ArrayQueue<T>::operator=(ArrayQueue<T> &&obj) noexcept {
   std::cout << "调用 ArrayQueue = 移动赋值" << std::endl;
   *this->my_array_ = std::move(*obj.my_array_);
   return *this;
 }
 
-#endif //DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAY_QUEUE_H_
+#endif // DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAY_QUEUE_H_

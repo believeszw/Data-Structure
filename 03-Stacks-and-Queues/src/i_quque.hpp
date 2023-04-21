@@ -5,9 +5,8 @@
 #ifndef DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_QUQUE_H_
 #define DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_QUQUE_H_
 
-template <typename T>
-class IQueue {
- public:
+template <typename T> class IQueue {
+public:
   virtual int GetSize() const = 0;
   virtual int GetCapacity() const = 0;
   virtual bool IsEmpty() = 0;
@@ -16,4 +15,4 @@ class IQueue {
   virtual T GetFront() const = 0;
 };
 
-#endif //DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_QUQUE_H_
+#endif // DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_QUQUE_H_

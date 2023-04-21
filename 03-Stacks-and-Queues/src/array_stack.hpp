@@ -5,13 +5,13 @@
 #ifndef DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAYSTACK_H_
 #define DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAYSTACK_H_
 
-#include "my_array.hpp"
 #include "i_stack.hpp"
+#include "my_array.hpp"
 
-template<typename T>
-class ArrayStack : public IStack<T> {
+template <typename T> class ArrayStack : public IStack<T> {
   MyArray<T> *my_array_{nullptr};
- public:
+
+public:
   ArrayStack();
   explicit ArrayStack(int capacity);
   ArrayStack(const ArrayStack<T> &obj);
@@ -41,83 +41,66 @@ class ArrayStack : public IStack<T> {
   void Clear();
 };
 
-template<typename T>
-ArrayStack<T>::ArrayStack() {
+template <typename T> ArrayStack<T>::ArrayStack() {
   std::cout << "调用 ArrayStack() 构造" << std::endl;
   my_array_ = new MyArray<T>();
 }
 
-template<typename T>
-ArrayStack<T>::ArrayStack(int capacity) {
+template <typename T> ArrayStack<T>::ArrayStack(int capacity) {
   std::cout << "调用 ArrayStack(int capacity) 构造" << std::endl;
   my_array_ = new MyArray<T>(capacity);
 }
 
-template<typename T>
-ArrayStack<T>::~ArrayStack() {
+template <typename T> ArrayStack<T>::~ArrayStack() {
   std::cout << "调用 ~ArrayStack() 析构" << std::endl;
   delete my_array_;
   my_array_ = nullptr;
 }
 
-template<typename T>
-ArrayStack<T>::ArrayStack(const ArrayStack<T> &obj) {
-  std::cout << "调用 ArrayStack(const ArrayStack<T> &obj) 拷贝构造" << std::endl;
+template <typename T> ArrayStack<T>::ArrayStack(const ArrayStack<T> &obj) {
+  std::cout << "调用 ArrayStack(const ArrayStack<T> &obj) 拷贝构造"
+            << std::endl;
   this->my_array_ = new MyArray<T>(*obj.my_array_);
 }
 
-template<typename T>
+template <typename T>
 ArrayStack<T> &ArrayStack<T>::operator=(const ArrayStack<T> &obj) {
   std::cout << "调用 ArrayStack = 赋值" << std::endl;
   *this->my_array_ = *obj.my_array_;
   return *this;
 }
 
-template<typename T>
-ArrayStack<T>::ArrayStack(ArrayStack<T> &&obj) noexcept {
+template <typename T> ArrayStack<T>::ArrayStack(ArrayStack<T> &&obj) noexcept {
   std::cout << "调用 ArrayStack(ArrayStack<T> &&obj) 移动拷贝构造" << std::endl;
   this->my_array_ = new MyArray<T>(std::move(*obj.my_array_));
 }
 
-template<typename T>
+template <typename T>
 ArrayStack<T> &ArrayStack<T>::operator=(ArrayStack<T> &&obj) noexcept {
   std::cout << "调用 ArrayStack = 移动赋值" << std::endl;
   *this->my_array_ = std::move(*obj.my_array_);
   return *this;
 }
 
-template<typename T>
-int ArrayStack<T>::GetSize() const {
+template <typename T> int ArrayStack<T>::GetSize() const {
   return my_array_->GetSize();
 }
 
-template<typename T>
-bool ArrayStack<T>::IsEmpty() {
+template <typename T> bool ArrayStack<T>::IsEmpty() {
   return my_array_->IsEmpty();
 }
 
-template<typename T>
-void ArrayStack<T>::Push(T t) {
-  my_array_->AddLast(t);
-}
+template <typename T> void ArrayStack<T>::Push(T t) { my_array_->AddLast(t); }
 
-template<typename T>
-T ArrayStack<T>::Pop() {
-  return my_array_->RemoveLast();
-}
+template <typename T> T ArrayStack<T>::Pop() { return my_array_->RemoveLast(); }
 
-template<typename T>
-T ArrayStack<T>::Peek() const {
+template <typename T> T ArrayStack<T>::Peek() const {
   return my_array_->GetLast();
 }
 
-template<typename T>
-void ArrayStack<T>::Clear() {
-  my_array_->Clear();
-}
-template<typename T>
-int ArrayStack<T>::GetCapacity() const {
+template <typename T> void ArrayStack<T>::Clear() { my_array_->Clear(); }
+template <typename T> int ArrayStack<T>::GetCapacity() const {
   return my_array_->GetCapacity();
 }
 
-#endif //DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAYSTACK_H_
+#endif // DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAYSTACK_H_
