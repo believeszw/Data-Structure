@@ -1,42 +1,59 @@
-# 项目目录  
-#project/
+# 编译生成的文件
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
 
-# 编译器缓存文件  
-*.pyc  
-*.pyo
+# 编译中间文件
+*.d
+*.dep
+*.out
+*.swp
+*.swo
+*.swn
 
-# 模板文件  
-*.模板
+# 编译工具生成的文件
+CMakeLists.txt.user
+CMakeCache.txt
+cmake_install.cmake
+build/
 
-# 资源文件  
-*.res  
-*.rc
+# 依赖库文件
+lib/
+lib64/
+libs/
 
-# 头文件目录  
-*.h  
-*/*.h
+# 可执行文件
+bin/
 
-# 临时文件  
-*.temp
-
-# 安装文件  
-#*/install_name.h
-#*/install_name_tool.exe
-
-# 预编译头文件  
-*.h.pch
-
-# 源代码文件  
-*.cpp  
-*.c
-
-# 其他文件和目录  
-.git/  
-.DS_Store
+# IDE生成的文件
+cmake-build-*/
+.vscode/
 .idea/
-cmake-build-*
-*~  
-# 防止编译器优化导致的文件消失  
-!.gitignore  
-!.git/refs/heads/master  
-!.DS_Store
+*.sdf
+*.suo
+*.opensdf
+*.user
+*.ncb
+*.sln
+*.sln.cache
+*.sln.docstates
+*.sln.layout
+*.ilk
+*.pdb
+
+# 临时文件
+*.tmp
+*.bak
+*.log
+
+# 其他生成的文件
+tags
+Session.vim
+
+# 忽略系统文件
+Thumbs.db
+.DS_Store
+Desktop.ini

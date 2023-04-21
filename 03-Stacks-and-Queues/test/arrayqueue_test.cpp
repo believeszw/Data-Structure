@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "array_queue.h"
+#include "array_queue.hpp"
 
 class ArrayQueueTest : public testing::Test {
  protected:

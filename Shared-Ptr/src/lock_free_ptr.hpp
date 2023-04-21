@@ -7,6 +7,8 @@
 
 #include <atomic>
 #include <memory>
+#include <cstddef>
+#include <thread>
 
 template<typename T>
 class lf_atomic_shared_ptr {
@@ -21,7 +23,7 @@ public:
 
     lf_atomic_shared_ptr(const lf_atomic_shared_ptr& other) : ptr_(other.ptr_), ref_count_(other.ref_count_) {
         if (ptr_) {
-            ref_count_->fetch_add(1, std::memory_order_acquire);
+            ref_count_->fetch_add(1, std::memory_order_relaxed);
         }
     }
 
@@ -54,17 +56,13 @@ public:
     std::shared_ptr<T> lock() const {
         std::atomic_uint* ref_count = ref_count_;
         T* ptr = ptr_;
-        while (ptr && ref_count->load(std::memory_order_acquire)) {
-            auto old_count = ref_count->load(std::memory_order_relaxed) + 1;
-            if (ref_count->compare_exchange_weak(
-                    old_count,
-                    old_count + 1,
-                    std::memory_order_release,
-                    std::memory_order_acquire)) {
+        while (ptr && ref_count->load(std::memory_order_relaxed)) {
+            auto expected = ref_count->load(std::memory_order_relaxed);
+            if (ref_count->compare_exchange_weak(expected, expected + 1, std::memory_order_relaxed, std::memory_order_relaxed)) {
                 return std::shared_ptr<T>(ptr, [ref_count](T* p) {
                     if (ref_count->fetch_sub(1, std::memory_order_release) == 1) {
                         std::atomic_thread_fence(std::memory_order_acquire);
-                        delete[] p;
+                        delete p;
                         delete ref_count;
                     }
                 });
@@ -78,5 +76,67 @@ private:
     std::atomic_uint* ref_count_ = nullptr;
 };
 
+template <typename T>
+class LockFreeSharedPtr {
+public:
+    LockFreeSharedPtr() : count_(new CountedPtr(0, new T())) {}
+
+    explicit LockFreeSharedPtr(T* ptr) : count_(new CountedPtr(1, ptr)) {}
+
+    LockFreeSharedPtr(const LockFreeSharedPtr& other) : count_(other.count_) {
+        AddRef();
+    }
+
+    LockFreeSharedPtr& operator=(const LockFreeSharedPtr& other) {
+        CountedPtr* old_cp = count_.exchange(other.count_);
+        RemoveRef(old_cp);
+        AddRef();
+        return *this;
+    }
+
+    ~LockFreeSharedPtr() {
+        RemoveRef(count_);
+    }
+
+    T* Get() const {
+        return count_->ptr;
+    }
+
+    T& operator*() const {
+        return *(count_->ptr);
+    }
+
+    T* operator->() const {
+        return count_->ptr;
+    }
+
+    operator bool() const {
+        return (count_->ptr != nullptr);
+    }
+
+private:
+    struct CountedPtr {
+        int count;
+        T* ptr;
+
+        CountedPtr(int count, T* ptr) : count(count), ptr(ptr) {}
+    };
+
+    std::atomic<CountedPtr*> count_;
+
+    void AddRef() {
+        CountedPtr* old_cp = count_.load();
+        do {
+            ++old_cp->count;
+        } while (!count_.compare_exchange_strong(old_cp, old_cp));
+    }
+
+    void RemoveRef(CountedPtr* old_cp) {
+        if (--old_cp->count == 0) {
+            delete old_cp->ptr;
+            delete old_cp;
+        }
+    }
+};
 
 #endif // DATA_STRUCTURE_SHARED_PTR_SRC_LOCK_FREE_PTR_HPP_

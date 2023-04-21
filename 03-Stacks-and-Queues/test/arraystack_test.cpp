@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "array_stack.h"
+#include "array_stack.hpp"
 
 class ArrayStackTest : public testing::Test {
  protected:

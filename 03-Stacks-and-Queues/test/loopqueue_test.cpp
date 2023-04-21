@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "loop_queue.h"
+#include "loop_queue.hpp"
 
 class LoopQueueTest : public testing::Test {
  protected:

@@ -5,8 +5,8 @@
 #ifndef DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAY_QUEUE_H_
 #define DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_ARRAY_QUEUE_H_
 
-#include "i_quque.h"
-#include "my_array.h"
+#include "i_quque.hpp"
+#include "my_array.hpp"
 
 template<typename T>
 class ArrayQueue : public IQueue<T> {

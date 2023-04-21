@@ -2,7 +2,7 @@
 // Created by believe on 2019/9/18.
 
 #include "gtest/gtest.h"
-#include "my_array.h"
+#include "my_array.hpp"
 
 // 初始化
 class ArrayTest : public testing::Test {

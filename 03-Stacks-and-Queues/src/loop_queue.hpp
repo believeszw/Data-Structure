@@ -5,8 +5,8 @@
 #ifndef DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_LOOP_QUEUE_H_
 #define DATA_STRUCTURE_03_STACKS_AND_QUEUES_SRC_LOOP_QUEUE_H_
 
-#include "my_array.h"
-#include "i_quque.h"
+#include "my_array.hpp"
+#include "i_quque.hpp"
 
 template<typename T>
 class LoopQueue : public IQueue<T> {
